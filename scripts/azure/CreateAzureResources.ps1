@@ -84,7 +84,7 @@ Write-SpecialLog "Current run configuration:" (Get-ScriptName) (Get-ScriptLineNu
 $config.Keys | sort | % { if(-not ($_.Contains("PASSWORD") -or $_.Contains("KEY"))) { Write-SpecialLog ("Key = " + $_ + ", Value = " + $config[$_]) (Get-ScriptName) (Get-ScriptLineNumber) } }
 
 Write-SpecialLog ("Using subscription: " + $config["AZURE_SUBSCRIPTION_NAME"]) (Get-ScriptName) (Get-ScriptLineNumber)
-Select-AzureSubscription -SubscriptionName $config["AZURE_SUBSCRIPTION_NAME"]
+Select-AzureSubscription -SubscriptionId $config["AZURE_SUBSCRIPTION_ID"]
 
 ###########################################################
 # Check Azure Resource Creation List
@@ -101,7 +101,7 @@ $startTime = Get-Date
 
 Write-SpecialLog "Creating ServiceBus Resources" (Get-ScriptName) (Get-ScriptLineNumber)
         
-Select-AzureSubscription -SubscriptionName $subName
+Select-AzureSubscription -SubscriptionId $subName
 & "$scriptDir\..\init.ps1"
 Write-InfoLog "Creating Service Bus Resources" (Get-ScriptName) (Get-ScriptLineNumber)
 $sbKeys = & "$scriptDir\ServiceBus\CreateServiceBusResources.ps1" $config["SERVICEBUS_NAMESPACE"] $config["SERVICEBUS_ENTITY_PATH"] $config["AZURE_LOCATION"] $config["SERVICEBUS_SEND_KEY"] $config["SERVICEBUS_LISTEN_KEY"] $config["SERVICEBUS_MANAGE_KEY"] 
